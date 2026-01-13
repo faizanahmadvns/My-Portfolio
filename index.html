@@ -9,7 +9,13 @@
     
     <title>Faizan Ahmad | Creative Web Developer</title>
     
-    <!-- Favicon Placeholder (Replace with favicon.ico if available) -->
+    <!-- Performance Optimization: Preconnect to critical domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://unpkg.com">
+
+    <!-- Favicon Placeholder -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -41,20 +47,19 @@
         }
     </script>
 
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Optimization: Defer non-critical JS to unblock rendering -->
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         /* Base Settings */
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 100px; /* Prevents nav from covering section headers */
-        }
         
         body {
             font-family: 'Space Grotesk', sans-serif;
             overflow-x: hidden;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            /* UPDATED: Slower, smoother transition for theme switching (0.7s) */
+            transition: background-color 0.7s cubic-bezier(0.4, 0, 0.2, 1), color 0.7s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* --- Glass Effect Styles --- */
@@ -66,6 +71,8 @@
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.5);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            /* UPDATED: Smooth transition for background/border changes */
+            transition: background-color 0.7s ease, border-color 0.7s ease, backdrop-filter 0.7s ease;
         }
         
         /* Dark Mode Glass */
@@ -81,7 +88,11 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.3s ease;
+            /* UPDATED: Split transitions.
+               - Transform/Shadow: Fast (0.3s) for responsive hover feel.
+               - Background/Border: Slow (0.7s) for subtle theme switching.
+            */
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.7s ease, border-color 0.7s ease;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
 
@@ -114,7 +125,8 @@
             z-index: -1;
             opacity: 0.6;
             animation: float 10s infinite ease-in-out;
-            transition: opacity 0.3s ease;
+            /* Slower fade for blob opacity */
+            transition: opacity 1s ease-in-out;
             will-change: transform; /* Performance optimization */
         }
         
@@ -186,6 +198,17 @@
             background-color: #60a5fa;
         }
 
+        /* Subtitle Cursor (Matches text color automatically) */
+        .cursor-blink-subtitle {
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background-color: currentColor;
+            margin-left: 2px;
+            vertical-align: text-bottom;
+            animation: blink 1s infinite;
+        }
+
         @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
@@ -237,10 +260,11 @@
 
     <!-- Navigation -->
     <nav class="fixed top-0 left-0 right-0 z-50 px-4 md:px-6 py-4">
-        <div class="max-w-7xl mx-auto glass rounded-2xl px-6 py-3 flex flex-col md:flex-row justify-between items-center transition-all duration-300 relative">
+        <!-- Update duration to 700 to match css -->
+        <div class="max-w-7xl mx-auto glass rounded-2xl px-6 py-3 flex flex-col md:flex-row justify-between items-center transition-all duration-700 relative">
             <div class="w-full md:w-auto flex justify-between items-center">
                 <!-- Logo -->
-                <a href="#home" class="text-xl font-bold tracking-widest flex items-center gap-2 group decoration-none text-slate-800 dark:text-white">
+                <a href="#home" class="text-xl font-bold tracking-widest flex items-center gap-2 group decoration-none text-slate-800 dark:text-white scroll-link">
                     <i data-lucide="code-2" class="text-blue-600 dark:text-blue-400 group-hover:text-purple-500 dark:group-hover:text-purple-400 transition-colors duration-300"></i> 
                     <span class="relative">
                         <span id="typewriter-text" class="transition-all duration-300 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:via-purple-500 group-hover:to-pink-500 dark:group-hover:from-blue-400 dark:group-hover:via-purple-400 dark:group-hover:to-pink-400"></span>
@@ -263,10 +287,10 @@
             <!-- Desktop Menu -->
             <div class="hidden md:flex items-center gap-6">
                 <div class="flex gap-8 text-sm font-medium text-slate-600 dark:text-gray-300">
-                    <a href="#home" class="hover:text-blue-600 dark:hover:text-white transition-colors">Home</a>
-                    <a href="#resume" class="hover:text-blue-600 dark:hover:text-white transition-colors">Resume</a>
-                    <a href="#projects" class="hover:text-blue-600 dark:hover:text-white transition-colors">Projects</a>
-                    <a href="#contact" class="hover:text-blue-600 dark:hover:text-white transition-colors">Contact</a>
+                    <a href="#home" class="hover:text-blue-600 dark:hover:text-white transition-colors scroll-link">Home</a>
+                    <a href="#resume" class="hover:text-blue-600 dark:hover:text-white transition-colors scroll-link">Resume</a>
+                    <a href="#projects" class="hover:text-blue-600 dark:hover:text-white transition-colors scroll-link">Projects</a>
+                    <a href="#contact" class="hover:text-blue-600 dark:hover:text-white transition-colors scroll-link">Contact</a>
                 </div>
 
                 <!-- Desktop Theme Toggle -->
@@ -278,10 +302,10 @@
 
             <!-- Mobile Menu Dropdown -->
             <div id="mobile-menu" class="w-full md:hidden flex flex-col gap-4 pt-4 text-center text-sm font-medium text-slate-600 dark:text-gray-300 border-t border-slate-200 dark:border-white/10 mt-2">
-                <a href="#home" class="hover:text-blue-600 dark:hover:text-white transition-colors py-2" onclick="closeMobileMenu()">Home</a>
-                <a href="#resume" class="hover:text-blue-600 dark:hover:text-white transition-colors py-2" onclick="closeMobileMenu()">Resume</a>
-                <a href="#projects" class="hover:text-blue-600 dark:hover:text-white transition-colors py-2" onclick="closeMobileMenu()">Projects</a>
-                <a href="#contact" class="hover:text-blue-600 dark:hover:text-white transition-colors py-2" onclick="closeMobileMenu()">Contact</a>
+                <a href="#home" class="hover:text-blue-600 dark:hover:text-white transition-colors py-2 scroll-link" onclick="closeMobileMenu()">Home</a>
+                <a href="#resume" class="hover:text-blue-600 dark:hover:text-white transition-colors py-2 scroll-link" onclick="closeMobileMenu()">Resume</a>
+                <a href="#projects" class="hover:text-blue-600 dark:hover:text-white transition-colors py-2 scroll-link" onclick="closeMobileMenu()">Projects</a>
+                <a href="#contact" class="hover:text-blue-600 dark:hover:text-white transition-colors py-2 scroll-link" onclick="closeMobileMenu()">Contact</a>
             </div>
         </div>
     </nav>
@@ -290,18 +314,26 @@
     <main class="relative z-10 pt-32 pb-20 px-4 md:px-6 3xl:max-w-[1800px] 3xl:mx-auto">
         
         <!-- Hero Section -->
-        <section id="home" class="max-w-5xl 3xl:max-w-7xl mx-auto mb-32 scroll-mt-32">
+        <section id="home" class="max-w-5xl 3xl:max-w-7xl mx-auto mb-32">
             <div class="glass p-8 md:p-12 rounded-3xl flex flex-col md:flex-row items-center gap-8 md:gap-12">
                 
                 <!-- Left: Circular Image -->
                 <div class="relative group shrink-0">
                     <div class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full blur opacity-50 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
-                    <div class="relative w-40 h-40 md:w-64 md:h-64 lg:w-72 lg:h-72 3xl:w-96 3xl:h-96 rounded-full overflow-hidden border-4 border-white/50 dark:border-white/20 shadow-2xl">
-                        <img src="profile.jpg.png" 
-                             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000&auto=format&fit=crop';"
+                    <div class="relative w-40 h-40 md:w-64 md:h-64 lg:w-72 lg:h-72 3xl:w-96 3xl:h-96 rounded-full overflow-hidden border-4 border-white/50 dark:border-white/20 shadow-2xl bg-slate-200 dark:bg-slate-800">
+                        
+                        <!-- Fallback Profile Icon with Refreshing (Pulse) Effect -->
+                        <div class="absolute inset-0 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                            <i data-lucide="user" class="w-1/3 h-1/3 text-slate-400 animate-pulse"></i>
+                        </div>
+
+                        <!-- Actual Image: Linked to GitHub Profile (.png trick) -->
+                        <img src="https://github.com/faizanahmadvns.png" 
+                             onerror="this.style.display='none'"
                              alt="Faizan Ahmad Portrait" 
-                             class="w-full h-full object-cover transform transition duration-500 group-hover:scale-110"
-                             fetchpriority="high">
+                             class="relative z-10 w-full h-full object-cover transform transition duration-500 group-hover:scale-110"
+                             fetchpriority="high"
+                             width="384" height="384">
                     </div>
                 </div>
 
@@ -310,21 +342,29 @@
                     <div class="inline-block px-3 py-1 mb-4 text-xs md:text-sm font-semibold tracking-wider text-blue-600 dark:text-blue-300 uppercase bg-blue-100 dark:bg-blue-500/10 rounded-full border border-blue-200 dark:border-blue-500/20">
                         Available for hire
                     </div>
-                    <h1 class="text-3xl md:text-5xl lg:text-6xl 3xl:text-7xl font-bold mb-4 leading-tight text-slate-900 dark:text-white">
+                    <h1 class="text-3xl md:text-5xl lg:text-6xl 3xl:text-7xl font-bold mb-2 leading-tight text-slate-900 dark:text-white">
                         Hi, I'm <span class="text-gradient">Faizan Ahmad</span>
                     </h1>
-                    <h2 class="text-lg md:text-xl lg:text-2xl 3xl:text-3xl text-slate-600 dark:text-gray-300 mb-6 font-light">
-                        MCA Student & Creative Web Developer
+                    
+                    <p class="text-lg md:text-xl lg:text-2xl 3xl:text-3xl text-slate-600 dark:text-gray-300 font-light mb-1">
+                        I'm a
+                    </p>
+                    
+                    <!-- Updated Subheading with Typing Effect -->
+                    <h2 class="text-lg md:text-xl lg:text-2xl 3xl:text-3xl text-slate-800 dark:text-white mb-6 font-semibold min-h-[1.5em] flex justify-center md:justify-start items-center">
+                        <span id="typing-subtitle"></span>
+                        <span class="cursor-blink-subtitle"></span>
                     </h2>
+
                     <p class="text-slate-600 dark:text-gray-400 mb-8 text-base md:text-lg 3xl:text-xl leading-relaxed max-w-2xl mx-auto md:mx-0">
                         I craft visually stunning and highly functional digital experiences. Currently pursuing my MCA at <span class="text-slate-900 dark:text-white font-medium">Rajarshi School of Management & Technology</span>, Varanasi. I specialize in building modern web applications with a focus on UI/UX.
                     </p>
                     
                     <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                        <a href="#contact" class="px-8 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full font-semibold hover:bg-slate-700 dark:hover:bg-gray-200 transition-colors flex items-center justify-center gap-2 shadow-lg 3xl:text-lg 3xl:px-10 3xl:py-4">
+                        <a href="#contact" class="px-8 py-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full font-semibold hover:bg-slate-700 dark:hover:bg-gray-200 transition-colors flex items-center justify-center gap-2 shadow-lg 3xl:text-lg 3xl:px-10 3xl:py-4 scroll-link">
                             <i data-lucide="mail" class="w-4 h-4 3xl:w-5 3xl:h-5"></i> Contact Me
                         </a>
-                        <a href="#projects" class="px-8 py-3 glass rounded-full font-semibold text-slate-800 dark:text-white hover:bg-white/50 dark:hover:bg-white/10 transition-colors flex items-center justify-center gap-2 3xl:text-lg 3xl:px-10 3xl:py-4">
+                        <a href="#projects" class="px-8 py-3 glass rounded-full font-semibold text-slate-800 dark:text-white hover:bg-white/50 dark:hover:bg-white/10 transition-colors flex items-center justify-center gap-2 3xl:text-lg 3xl:px-10 3xl:py-4 scroll-link">
                             <i data-lucide="folder-open" class="w-4 h-4 3xl:w-5 3xl:h-5"></i> View Work
                         </a>
                     </div>
@@ -359,7 +399,7 @@
         </section>
 
         <!-- Projects -->
-        <section id="projects" class="max-w-6xl 3xl:max-w-8xl mx-auto mb-32 scroll-mt-32">
+        <section id="projects" class="max-w-6xl 3xl:max-w-8xl mx-auto mb-32">
             <div class="flex items-center gap-4 mb-12">
                 <h2 class="text-2xl md:text-4xl 3xl:text-5xl font-bold text-slate-900 dark:text-white">Featured Projects</h2>
                 <div class="h-px flex-1 bg-gradient-to-r from-slate-300 dark:from-white/20 to-transparent"></div>
@@ -371,7 +411,7 @@
                 <div class="glass-card rounded-3xl overflow-hidden flex flex-col h-full group">
                     <div class="h-48 md:h-56 3xl:h-72 flex items-center justify-center relative overflow-hidden bg-black/5 dark:bg-black/20">
                         <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors z-10"></div>
-                        <img src="QRme_logo (1).png" alt="QRme Logo" class="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-105" loading="lazy">
+                        <img src="QRme_logo (1).png" alt="QRme Logo" class="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-105" loading="lazy" width="400" height="250">
                     </div>
                     <div class="p-6 3xl:p-8 flex-1 flex flex-col">
                         <h3 class="text-xl md:text-2xl 3xl:text-3xl font-bold mb-2 text-slate-800 dark:text-white">QRme.live</h3>
@@ -392,7 +432,7 @@
                 <div class="glass-card rounded-3xl overflow-hidden flex flex-col h-full group">
                     <div class="h-48 md:h-56 3xl:h-72 flex items-center justify-center relative overflow-hidden bg-black/5 dark:bg-black/20">
                          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors z-10"></div>
-                        <img src="sonicslice.jpg.png" alt="Sonic Slice Interface" class="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-105" loading="lazy">
+                        <img src="sonicslice.jpg.png" alt="Sonic Slice Interface" class="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-105" loading="lazy" width="400" height="250">
                     </div>
                     <div class="p-6 3xl:p-8 flex-1 flex flex-col">
                         <h3 class="text-xl md:text-2xl 3xl:text-3xl font-bold mb-2 text-slate-800 dark:text-white">Sonic Slice</h3>
@@ -413,7 +453,7 @@
                 <div class="glass-card rounded-3xl overflow-hidden flex flex-col h-full group">
                     <div class="h-48 md:h-56 3xl:h-72 flex items-center justify-center relative overflow-hidden bg-black/5 dark:bg-black/20">
                          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors z-10"></div>
-                        <img src="CMS.jpg.png" alt="Clinic Management System Dashboard" class="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-105" loading="lazy">
+                        <img src="CMS.jpg.png" alt="Clinic Management System Dashboard" class="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-105" loading="lazy" width="400" height="250">
                     </div>
                     <div class="p-6 3xl:p-8 flex-1 flex flex-col">
                         <h3 class="text-xl md:text-2xl 3xl:text-3xl font-bold mb-2 text-slate-800 dark:text-white">Clinic Management System</h3>
@@ -430,11 +470,29 @@
                     </div>
                 </div>
 
+                <!-- Project 4: Basco Bite -->
+                <div class="glass-card rounded-3xl overflow-hidden flex flex-col h-full group">
+                    <div class="h-48 md:h-56 3xl:h-72 flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-orange-100 to-red-100 dark:from-orange-900/20 dark:to-red-900/20">
+                         <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors z-10"></div>
+                        <i data-lucide="utensils" class="w-16 h-16 text-orange-500 dark:text-orange-400 group-hover:scale-110 transition-transform duration-300"></i>
+                    </div>
+                    <div class="p-6 3xl:p-8 flex-1 flex flex-col">
+                        <h3 class="text-xl md:text-2xl 3xl:text-3xl font-bold mb-2 text-slate-800 dark:text-white">Basco Bite</h3>
+                        <p class="text-slate-600 dark:text-gray-400 mb-4 text-sm 3xl:text-base flex-1">
+                            A dynamic web application designed for the culinary industry, featuring intuitive menu browsing and streamlined order management interfaces.
+                        </p>
+                        <div class="flex gap-2 mb-6 flex-wrap">
+                            <span class="px-2 py-1 bg-orange-100 dark:bg-white/10 rounded text-xs 3xl:text-sm text-orange-600 dark:text-orange-200">Web App</span>
+                            <span class="px-2 py-1 bg-orange-100 dark:bg-white/10 rounded text-xs 3xl:text-sm text-orange-600 dark:text-orange-200">UI/UX</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
         <!-- Resume -->
-        <section id="resume" class="max-w-6xl 3xl:max-w-8xl mx-auto mb-32 scroll-mt-32">
+        <section id="resume" class="max-w-6xl 3xl:max-w-8xl mx-auto mb-32">
             <div class="flex items-center gap-4 mb-12">
                 <h2 class="text-2xl md:text-4xl 3xl:text-5xl font-bold text-slate-900 dark:text-white">Resume</h2>
                 <div class="h-px flex-1 bg-gradient-to-r from-slate-300 dark:from-white/20 to-transparent"></div>
@@ -573,43 +631,43 @@
                 <div class="scroller-inner flex items-center justify-center gap-16 py-4">
                     <!-- Original Set -->
                     <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy" width="64" height="64">
                         <span class="text-xs text-slate-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">HTML</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy" width="64" height="64">
                         <span class="text-xs text-slate-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">CSS</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy" width="64" height="64">
                         <span class="text-xs text-slate-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">JavaScript</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy" width="64" height="64">
                         <span class="text-xs text-slate-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">React</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy" width="64" height="64">
                         <span class="text-xs text-slate-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">Tailwind</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy" width="64" height="64">
                         <span class="text-xs text-slate-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">Python</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy" width="64" height="64">
                         <span class="text-xs text-slate-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">MySQL</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy" width="64" height="64">
                         <span class="text-xs text-slate-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">Git</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="w-16 h-16 group-hover:scale-110 transition-transform dark:invert drop-shadow-lg" loading="lazy">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="w-16 h-16 group-hover:scale-110 transition-transform dark:invert drop-shadow-lg" loading="lazy" width="64" height="64">
                         <span class="text-xs text-slate-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">GitHub</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Google_Gemini_logo.svg" alt="Gemini" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Google_Gemini_logo.svg" alt="Gemini" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy" width="64" height="64">
                         <span class="text-xs text-slate-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">Gemini</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 group cursor-pointer">
@@ -619,49 +677,49 @@
                         <span class="text-xs text-slate-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">Antigravity</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy" width="64" height="64">
                         <span class="text-xs text-slate-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">VS Code</span>
                     </div>
 
                     <!-- DUPLICATE SET FOR INFINITE SCROLL -->
                      <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy" width="64" height="64">
                         <span class="text-xs text-slate-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">HTML</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy" width="64" height="64">
                         <span class="text-xs text-slate-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">CSS</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy" width="64" height="64">
                         <span class="text-xs text-slate-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">JavaScript</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy" width="64" height="64">
                         <span class="text-xs text-slate-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">React</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy" width="64" height="64">
                         <span class="text-xs text-slate-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">Tailwind</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy" width="64" height="64">
                         <span class="text-xs text-slate-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">Python</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy" width="64" height="64">
                         <span class="text-xs text-slate-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">MySQL</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy" width="64" height="64">
                         <span class="text-xs text-slate-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">Git</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="w-16 h-16 group-hover:scale-110 transition-transform dark:invert drop-shadow-lg" loading="lazy">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="w-16 h-16 group-hover:scale-110 transition-transform dark:invert drop-shadow-lg" loading="lazy" width="64" height="64">
                         <span class="text-xs text-slate-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">GitHub</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Google_Gemini_logo.svg" alt="Gemini" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Google_Gemini_logo.svg" alt="Gemini" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy" width="64" height="64">
                         <span class="text-xs text-slate-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">Gemini</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 group cursor-pointer">
@@ -671,7 +729,7 @@
                         <span class="text-xs text-slate-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">Antigravity</span>
                     </div>
                     <div class="flex flex-col items-center gap-2 group cursor-pointer">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code" class="w-16 h-16 group-hover:scale-110 transition-transform drop-shadow-lg" loading="lazy" width="64" height="64">
                         <span class="text-xs text-slate-500 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">VS Code</span>
                     </div>
 
@@ -680,7 +738,7 @@
         </section>
 
         <!-- Contact Section -->
-        <section id="contact" class="max-w-3xl 3xl:max-w-5xl mx-auto scroll-mt-32">
+        <section id="contact" class="max-w-3xl 3xl:max-w-5xl mx-auto">
             <div class="glass p-8 md:p-12 3xl:p-16 rounded-3xl text-center relative overflow-hidden">
                 <!-- Decorative blurred circle inside -->
                 <div class="absolute top-0 right-0 w-32 h-32 3xl:w-48 3xl:h-48 bg-purple-500 rounded-full blur-[60px] opacity-20 dark:opacity-30"></div>
@@ -700,7 +758,8 @@
                     
                     <input type="email" name="email" required placeholder="Your Email" aria-label="Your Email" class="w-full bg-white/60 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-gray-500 focus:outline-none focus:border-blue-400 focus:bg-white dark:focus:bg-white/10 transition-all">
                     
-                    <textarea name="message" rows="4" required placeholder="Your Message" aria-label="Your Message" class="w-full bg-white/60 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-gray-500 focus:outline-none focus:border-blue-400 focus:bg-white dark:focus:bg-white/10 transition-all"></textarea>
+                    <textarea name="message" rows="4" required placeholder="Your Message" aria-label="Your Message" class="w-full bg-white/60 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-gray-500 focus:outline-none focus:border-blue-400 focus:bg-white dark:focus:bg-white/10 transition-all">
+                    </textarea>
                     
                     <button type="submit" class="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-3 rounded-xl hover:bg-slate-700 dark:hover:bg-gray-200 transition-colors shadow-lg 3xl:text-lg 3xl:py-4">
                         Send Message
@@ -726,16 +785,53 @@
 
     </main>
 
-    <footer class="text-center py-8 text-slate-500 dark:text-gray-500 text-sm relative z-10 border-t border-slate-200 dark:border-white/5">
+    <footer class="text-center py-8 text-slate-500 dark:text-gray-500 text-sm relative z-10">
         <p class="mb-2 font-medium">Made with <span class="text-red-500 animate-pulse inline-block">❤️</span> in India</p>
         <p>&copy; 2025 Faizan Ahmad.</p>
+        <!-- Dynamic Day/Holiday Greeting -->
+        <p id="footer-greeting" class="mt-2 text-xs font-light opacity-80 animate-fade-in"></p>
     </footer>
 
     <script>
         // Initialize Lucide Icons
-        lucide.createIcons();
+        // Use DOMContentLoaded to ensure elements exist before script runs
+        document.addEventListener("DOMContentLoaded", () => {
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        });
 
-        // Typewriter Effect
+        // Dynamic Footer Greeting Logic
+        function updateFooterGreeting() {
+            const greetingElement = document.getElementById('footer-greeting');
+            if (!greetingElement) return;
+
+            const date = new Date();
+            const day = date.getDay();
+            const month = date.getMonth(); // 0-11
+            const dateNum = date.getDate();
+            
+            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            let message = `Enjoy your ${days[day]}!`;
+
+            // Specific Holidays & Festivals (India Context)
+            if (month === 0 && dateNum === 1) message = "Happy New Year! 🎉";
+            else if (month === 0 && dateNum === 26) message = "Happy Republic Day! 🇮🇳";
+            else if (month === 2 && dateNum === 8) message = "Happy Holi! 🎨"; // Date varies, placeholder logic
+            else if (month === 7 && dateNum === 15) message = "Happy Independence Day! 🇮🇳";
+            else if (month === 9 && dateNum === 2) message = "Happy Gandhi Jayanti! 🕊️";
+            else if (month === 10 && dateNum === 1) message = "Happy Diwali! 🪔"; // Date varies
+            else if (month === 11 && dateNum === 25) message = "Merry Christmas! 🎄";
+            // Weekend Logic
+            else if (day === 0 || day === 6) message = "Enjoy your Weekend! ☕";
+
+            greetingElement.textContent = message;
+        }
+
+        // Call on load
+        updateFooterGreeting();
+
+        // 1. Header Name Typewriter Effect (Runs Once)
         const textToType = "Faizan Ahmad";
         const typeWriterElement = document.getElementById('typewriter-text');
         let charIndex = 0;
@@ -745,12 +841,56 @@
                 typeWriterElement.textContent += textToType.charAt(charIndex);
                 charIndex++;
                 setTimeout(typeWriter, 150);
+            } else {
+                // Typing finished, remove blinking cursor
+                const cursor = document.querySelector('.cursor-blink');
+                if (cursor) {
+                    cursor.style.display = 'none';
+                }
             }
         }
 
-        // Start typing shortly after load
+        // 2. Subtitle Typewriter Effect (Infinite Loop)
+        const subtitleTexts = ["Web Developer", "UI/UX Designer", "Product Designer", "Software Developer", "Tech Enthusiast"];
+        const subtitleElement = document.getElementById('typing-subtitle');
+        let subtitleIndex = 0;
+        let subtitleCharIndex = 0;
+        let isDeleting = false;
+        let typeSpeed = 100;
+
+        function typeSubtitle() {
+            if (!subtitleElement) return;
+            
+            const currentText = subtitleTexts[subtitleIndex];
+            
+            if (isDeleting) {
+                subtitleElement.textContent = currentText.substring(0, subtitleCharIndex - 1);
+                subtitleCharIndex--;
+                typeSpeed = 50; // Faster when deleting
+            } else {
+                subtitleElement.textContent = currentText.substring(0, subtitleCharIndex + 1);
+                subtitleCharIndex++;
+                typeSpeed = 100; // Normal typing speed
+            }
+
+            if (!isDeleting && subtitleCharIndex === currentText.length) {
+                // Finished typing word, wait before deleting
+                isDeleting = true;
+                typeSpeed = 2000; 
+            } else if (isDeleting && subtitleCharIndex === 0) {
+                // Finished deleting, move to next word
+                isDeleting = false;
+                subtitleIndex = (subtitleIndex + 1) % subtitleTexts.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(typeSubtitle, typeSpeed);
+        }
+
+        // Start animations on load
         window.addEventListener('load', () => {
             if (typeWriterElement) setTimeout(typeWriter, 500);
+            if (subtitleElement) setTimeout(typeSubtitle, 1000);
         });
 
         // Theme Toggle Logic
@@ -787,14 +927,46 @@
             }
         }
 
-        // Mouse Parallax Effect
+        // Mouse Parallax Effect - OPTIMIZED FOR PERFORMANCE
+        let ticking = false;
+        
         document.addEventListener('mousemove', (e) => {
-            const blobs = document.querySelectorAll('.blob');
-            blobs.forEach((blob, index) => {
-                const speed = (index + 1) * 20;
-                const xOffset = (window.innerWidth / 2 - e.clientX) / speed;
-                const yOffset = (window.innerHeight / 2 - e.clientY) / speed;
-                blob.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+            // OPTIMIZATION: Only run on desktop screens (>768px) to save battery on mobile
+            if (!ticking && window.innerWidth > 768) {
+                window.requestAnimationFrame(() => {
+                    const blobs = document.querySelectorAll('.blob');
+                    blobs.forEach((blob, index) => {
+                        const speed = (index + 1) * 20;
+                        const xOffset = (window.innerWidth / 2 - e.clientX) / speed;
+                        const yOffset = (window.innerHeight / 2 - e.clientY) / speed;
+                        blob.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+                    });
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        // SMART SCROLL SCRIPT: Calculates exact nav height for perfect alignment
+        document.querySelectorAll('.scroll-link').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#' || targetId === '') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement){
+                    const nav = document.querySelector('nav');
+                    const navHeight = nav ? nav.offsetHeight : 80; // Fallback to 80px
+                    const offset = 30; // Extra buffer space
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - navHeight - offset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
             });
         });
     </script>
